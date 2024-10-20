@@ -66,7 +66,7 @@
     <section class="contact-section" style="background-color: #20212b;">
         <div class="container px-4" style="padding-bottom: 1rem; background-color: #20212b;">
             <div class="row gx-4 gx-lg-5 justify-content-center">
-              
+
                 <div class="col-md-4 mb-md-0">
                     <div id="calendar"> </div>
                 </div>
@@ -88,9 +88,9 @@
                 <div class="col-md-12 mb-12 mb-md-2">
                     <div class="card py-4 h-100">
                         <div class="card-body text-center">
-                            
+
                             <h3 class="text-uppercase m-0"><i class="fas fa-clipboard"></i> Summary</h3>
-                            
+
                             <hr class="my-4 mx-auto" style="border-color: #e4c662;" />
                             <div class="text-black-50" style="text-align: left;padding: 2rem" id="summary">N/A</div>
                         </div>
@@ -130,7 +130,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="row text-center mt-4">
                 <div class="col-md-2 mb-3 mb-md-0"></div>
@@ -171,7 +171,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3 mb-md-0" id="sleep"  style="display: none;">
+                <div class="col-md-4 mb-3 mb-md-0" id="sleep" style="display: none;">
                     <div class="card py-4 h-100">
                         <div class="card-body text-center">
                             <h2><i class="fas fa-bed"></i></h2>
@@ -180,7 +180,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 mb-3 mb-md-0" id="diet"  style="display: none;">
+                <div class="col-md-4 mb-3 mb-md-0" id="diet" style="display: none;">
                     <div class="card py-4 h-100">
                         <div class="card-body text-center">
                             <h2>
@@ -190,7 +190,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3 mb-md-0" id="mindfulness"  style="display: none;">
+                <div class="col-md-4 mb-3 mb-md-0" id="mindfulness" style="display: none;">
                     <div class="card py-4 h-100">
                         <div class="card-body text-center">
 
@@ -199,7 +199,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3 mb-md-0" id="goals"  style="display: none;">
+                <div class="col-md-4 mb-3 mb-md-0" id="goals" style="display: none;">
                     <div class="card py-4 h-100">
                         <div class="card-body text-center">
                             <h2><i class="fas fa-flag-checkered"></i></h2>
@@ -207,7 +207,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3 mb-md-0" id="stress"  style="display: none;">
+                <div class="col-md-4 mb-3 mb-md-0" id="stress" style="display: none;">
                     <div class="card py-4 h-100">
                         <div class="card-body text-center">
                             <h2><i class="fas fa-people-arrows mb-2"></i></h2>
@@ -256,35 +256,66 @@
                 document.getElementById('worst_text').textContent = obj.response1['Worst Area'].text;
                 document.getElementById('journal_entry').textContent = obj.journal;
                 document.getElementById('wisdom').textContent = obj.wisdom;
-                if( obj.response1.Summary){
-                    let content = obj.response1.Summary ;
-                    content = content.replaceAll("\n","<br>");
+                if (obj.response1.Summary) {
+                    let content = obj.response1.Summary;
+                    content = content.replaceAll("\n", "<br>");
                     document.getElementById('summary').innerHTML = content;
                 }
-                
-                
+
+
                 // help
                 let test = obj.response2.toLowerCase();
-                let sentences = test.split('\n') ;
-                for( let line of sentences){
-                    console.log(line);
-                    if( line.trim().length==0)
+                let sentences = test.split('\n');
+                for (let line of sentences) {
+                    //console.log(line);
+                    if (line.trim().length == 0)
                         continue;
                     line = line.trim();
-                    if (line.indexOf('sleep') == 0)
+                    let cIdx = line.length;
+                    if (line.indexOf(':') != -1) {
+                        cIdx = line.indexOf(':') + 1;
+                    }
+                    let context = line.substring(cIdx).trim();
+                    context = context.charAt(0).toUpperCase() + context.slice(1);
+                    //console.log(context) ;
+                    if (line.indexOf('sleep') == 0) {
                         document.getElementById('sleep').style.display = "block";
-                    if (line.indexOf('stress') == 0)
+                        document.getElementById('sleep')
+                            .children[0]
+                            .children[0].innerHTML += `<div class="text-black-50 mt-2">${context}</div>`;
+                    }
+                    if (line.indexOf('stress') == 0) {
                         document.getElementById('stress').style.display = "block";
-                    if (line.indexOf('goals') == 0)
+                        document.getElementById('stress')
+                            .children[0]
+                            .children[0].innerHTML += `<div class="text-black-50 mt-2">${context}</div>`;
+                    }
+                    if (line.indexOf('goals') == 0) {
                         document.getElementById('goals').style.display = "block";
-                    if (line.indexOf('mindfulness') == 0)
+                        document.getElementById('goals')
+                            .children[0]
+                            .children[0].innerHTML += `<div class="text-black-50 mt-2">${context}</div>`;
+                    }
+                    if (line.indexOf('mindfulness') == 0) {
                         document.getElementById('mindfulness').style.display = "block";
-                    if (line.indexOf('diet') == 0)
+                        document.getElementById('mindfulness')
+                            .children[0]
+                            .children[0].innerHTML += `<div class="text-black-50 mt-2">${context}</div>`;
+                    }
+                    if (line.indexOf('diet') == 0) {
                         document.getElementById('diet').style.display = "block";
-                    if (line.indexOf('exercise') == 0)
+                        document.getElementById('diet')
+                            .children[0]
+                            .children[0].innerHTML += `<div class="text-black-50 mt-2">${context}</div>`;
+                    }
+                    if (line.indexOf('exercise') == 0) {
                         document.getElementById('exercise').style.display = "block";
+                        document.getElementById('exercise')
+                            .children[0]
+                            .children[0].innerHTML += `<div class="text-black-50 mt-2">${context}</div>`;
+                    }
                 }
-                
+
             }
 
         }

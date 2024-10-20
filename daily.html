@@ -71,7 +71,7 @@
             </div>
         </section> -->
     <!-- Projects-->
-    <section class="signup-section bg-light"  style="padding-bottom: 20rem;padding-top: 15rem;" id="quiz">
+    <section class="signup-section bg-light" style="padding-bottom: 20rem;padding-top: 15rem;" id="quiz">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5">
                 <div class="col-md-10 col-lg-8 mx-auto text-center">
@@ -85,12 +85,12 @@
                             <style>
                                 .question-item {
                                     /*  spacing for questions */
-                                    margin-bottom: 2rem; 
+                                    margin-bottom: 2rem;
                                 }
-                                
+
                                 .form-control::placeholder {
                                     /* color for placeholder text */
-                                    color: #bebebe; 
+                                    color: #bebebe;
                                 }
                             </style>
 
@@ -98,7 +98,8 @@
                             <div class="row input-group-newsletter">
                                 <div class="col">
 
-                                    <textarea class="form-control" placeholder="Write about your mood..." rows="3"></textarea>
+                                    <textarea class="form-control" placeholder="Write about your mood..."
+                                        rows="3"></textarea>
                                 </div>
                                 <div class="col-auto"> </div>
                             </div>
@@ -135,7 +136,8 @@
                             </div>
 
 
-                            <li class="mt-3">What did you have to eat? How full did you feel, and how healthy was each meal?</li>
+                            <li class="mt-3">What did you have to eat? How full did you feel, and how healthy was each
+                                meal?</li>
                             <div class="row input-group-newsletter">
                                 <div class="col"><textarea class="form-control" rows="3"
                                         placeholder="Write about your diet..."></textarea></div>
@@ -159,7 +161,8 @@
                             </div>
 
 
-                            <li class="mt-3">How productive were you today? Are there any achievements you’re proud of?</li>
+                            <li class="mt-3">How productive were you today? Are there any achievements you’re proud of?
+                            </li>
                             <div class="row input-group-newsletter">
                                 <div class="col"><textarea class="form-control" rows="3"
                                         placeholder="Write about your productivity..."></textarea></div>
@@ -223,74 +226,74 @@
     <script>
         let journal_entry = '';
         let words_of_wisdom = '';
-        
 
 
-        function parseResult( results , summary){
+
+        function parseResult(results, summary) {
 
             console.log('=======parseResult()====================')
-            console.log(results) ;
+            console.log(results);
             console.log('===========================')
-            
 
-            var resultObj = {} ;
-            if( results.length>0){
+
+            var resultObj = {};
+            if (results.length > 0) {
                 resultObj['response1'] = {
-                    'Happiness':{
-                        'score':'',
-                        'text':''
+                    'Happiness': {
+                        'score': '',
+                        'text': ''
                     },
-                    'Best Area':{
-                        'score':'',
-                        'text':''
+                    'Best Area': {
+                        'score': '',
+                        'text': ''
                     },
-                    'Worst Area':{
-                        'score':'',
-                        'text':''
+                    'Worst Area': {
+                        'score': '',
+                        'text': ''
                     },
-                    'Summary':summary
+                    'Summary': summary
                 };
                 resultObj['journal'] = journal_entry;
                 resultObj['wisdom'] = words_of_wisdom;
 
-                var lines = results[0].split("\n") ;
+                var lines = results[0].split("\n");
                 const regex = /\d+\/\d+/gm;
-                for( var line of lines ){
-                    console.log( "  >>> "+line) ;
-                    var b = false ;
+                for (var line of lines) {
+                    console.log("  >>> " + line);
+                    var b = false;
                     var item = null;
-                    if( line.toLowerCase().indexOf('happiness')!=-1){
-                        console.log( "happy ==>" );
+                    if (line.toLowerCase().indexOf('happiness') != -1) {
+                        console.log("happy ==>");
                         item = resultObj.response1.Happiness;
                     }
-                    if(line.toLowerCase().indexOf('best area')!=-1){
-                        console.log( "best ==>" );
-                        item = resultObj.response1['Best Area'] ;
+                    if (line.toLowerCase().indexOf('best area') != -1) {
+                        console.log("best ==>");
+                        item = resultObj.response1['Best Area'];
                     }
-                    if(line.toLowerCase().indexOf('worst area')!=-1){
-                        console.log( "worst ==>" );
-                        item = resultObj.response1['Worst Area'] ;
+                    if (line.toLowerCase().indexOf('worst area') != -1) {
+                        console.log("worst ==>");
+                        item = resultObj.response1['Worst Area'];
                         b = true;
                     }
-                    if( item!=null){
+                    if (item != null) {
                         const match = line.match(regex);
-                        item['score'] = match[0] ;
-                        item['text'] = line.substr( line.indexOf('_')+1).trim() ;
+                        item['score'] = match[0];
+                        item['text'] = line.substr(line.indexOf('_') + 1).trim();
                     }
-                    if(b)break;
+                    if (b) break;
                 }
             }
-            if( results.length>1){
-                resultObj['response2'] = results[1].trim() ;
+            if (results.length > 1) {
+                resultObj['response2'] = results[1].trim();
             }
-            
+
             // "You've co"
             // save to localstorage            
             // format : yyyy-mm-dd  2024-09-24
-            var today =  getTodayString();
+            var today = getTodayString();
             localStorage.setItem(today, JSON.stringify(resultObj));
             // set today as the reference date of the progress page
-            localStorage.setItem('target_date',today) ;
+            localStorage.setItem('target_date', today);
 
         }
 
@@ -350,8 +353,19 @@
 
 
 
-            user_response += 'Using this response and other responses from this week (or further), please declare a “happiness” rating out of 10 for the user. Consider the trajectory of their week, month, or year. Then an underline, and a ~200 character explanation Example: “Happiness: 6/10_Today was fine because…” newline. Using this response and other responses from this week (or further), please find the best ”area” first (Best Area:) and worst “area” (Worst Area:) giving rating out of 10 and a brief sentence (~200 char)for both. Example: “Stress: 10/10_Stress management is a strong….” newline “Sleep: 2/10_Struggles with sleep because…”. Make sure to state the best and worst areas respectively first before writing a brief sentence or two.  Then, please briefly write a summary (in bullet points) for yourself to remember. The summary shall include things like actions, people, places, activities, thoughts, possible feelings, possible emotions. Please do not hallucinate and write things that aren’t directly inferred/tied to the response or responses given. Please be on the lookout for possible mental disorder symptoms.Write about the crucial ideas, people, emotions, places, activities, etc. '
-            //console.log( user_response ) ;
+            user_response +=
+                ` \n Using this response and other responses from this week , 
+            please declare a “happiness” rating out of 10 for the user. Consider the trajectory of their 
+            week, month, or year. Then an underline, and a ~1000 character explanation; Example: 
+            “Happiness: 6/10_Today was fine because…” newline. Using this response and other responses 
+            from this week (or further), please find the best ”area” first (Best Area:) and worst “area” (Worst Area:) giving rating out of 10 
+            and sentence for both. Example: “Stress: 10/10_Stress management is a strong….” newline 
+            “Sleep: 2/10_Struggles with sleep because…”. Make sure to state the best and worst areas respectively first before writing a brief sentence or two.  
+            Then, please briefly write a summary (in bullet points) for yourself to remember. 
+            The summary shall include things like actions, people, places, activities, thoughts, possible feelings, possible emotions. en. 
+            Please be on the lookout for possible mental disorder symptoms. Write about the crucial ideas, people, emotions, places, activities, etc. 
+            `
+            console.log( user_response ) ;
 
 
             const response = await fetch('https://us-central1-mentalhealthapp-8c73b.cloudfunctions.net/getOpenAIResponse', {
@@ -366,21 +380,24 @@
 
             const data = await response.json();
             const botMessage = data.result.response;
+            //downloadFile(botMessage);
             var si = botMessage.indexOf('Summary');
-            var summary = '' ;
-            if( si!=-1){
-                summary = botMessage.substr(si) ;
+            var si2 = botMessage.indexOf('\n-');
+            var summary = '';
+            if (si != -1) {
+                summary = botMessage.substr(si);
+            } else if (si2 != -1) {
+                summary = botMessage.substr(si2 + 1);
             }
-            console.log('-------------------------');
-            // console.log(botMessage);
-            results.push(botMessage);
-            console.log('-------------------------');
 
+            console.log('------------------------------');
+            console.log(botMessage);
+            console.log('------------------------------');
 
 
             let query2 = 'Read the data below. there are various scores and areas, as well as a summary.'
-            +botMessage +
-            `
+                + botMessage +
+                `
             Consider all this and the user’s personality. Then, out of these categories: 
             [-> Exercise
                 Cardiovascular (Walking, jogging, running, cycling) 
@@ -389,15 +406,17 @@
                 Tips on how to get better sleep, fall asleep quicker
             -> Diet
                 Tips on how to get balanced meals
-            -> Mindfulness (and Gratitude)
+            -> Mindfulness 
                 Tips on how to do breathing
                 Words of gratitude practicing
             -> Goals
                 Set short term, mid term, long term goals - cross them off once accomplished
             -> Stress
                 Identify, confront, and eliminate things/situations that cause stress]
-            List the top 3 categories (from above, with "->" before them) the user would see benefit from, and a short blurb about why (1-2 sentences). Lead with the category, then a colon:
-            Example: “Exercise: The user should be more active because… Diet: A healthy diet can provide benefits… Goals: Motivation can help accomplish more…” seperate the 3 with newlines` 
+            List the top 3 categories (from above, with "->" before them) the user would see benefit from, and a short blurb about why (1-2 sentences). 
+            Lead with the category, then a colon:
+            Example: “Exercise: The user should be more active because… Diet: A healthy diet can provide benefits… 
+            Goals: Motivation can help accomplish more…” seperate the 3 with newlines`
 
             const response2 = await fetch('https://us-central1-mentalhealthapp-8c73b.cloudfunctions.net/getOpenAIResponse', {
                 method: 'POST',
@@ -416,33 +435,33 @@
             // console.log(results);
             // console.log('-------------------------');
 
-            parseResult( results , summary);
+            parseResult(results, summary);
 
             // redirect to progress page
-            window.location = 'progress.html' ;
-            
+           // window.location = 'progress.html';
+
         }
-    
-    
+
+
         document.addEventListener("DOMContentLoaded",
             function () {
                 sign_in_checker();
                 const saveButton = document.getElementById("saveButton");
-                const inputItem = document.getElementById("input_list") ;
+                const inputItem = document.getElementById("input_list");
                 const today = getTodayString();
-                
+
                 // Check if today's quote is already saved
-                
+
                 if (localStorage.getItem(today)) { // removes questions and input boxes if already submitted today
                     saveButton.disabled = true;
-                    inputItem.innerHTML='<h4>You\'ve already completed your reflection today :) </h4> <h4>Please come back tomorrow</h4>';
+                    inputItem.innerHTML = '<h4>You\'ve already completed your reflection today :) </h4> <h4>Please come back tomorrow</h4>';
                     inputItem.style = 'text-align:center !important';
                     //
                 }
             }
         );
-    
-    
+
+
     </script>
 </body>
 
